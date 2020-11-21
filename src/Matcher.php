@@ -22,7 +22,7 @@ class Matcher
     {
         $matches = [];
         foreach ($this->getMatchers() as $matcher) {
-            $matched = $matcher::match($password, $userInputs);
+            $matched = $matcher::doMatch($password, $userInputs);
             if (is_array($matched) && !empty($matched)) {
                 $matches = array_merge($matches, $matched);
             }
@@ -74,7 +74,7 @@ class Matcher
     /**
      * Load available Match objects to match against a password.
      *
-     * @return array Array of classes implementing MatchInterface
+     * @return BaseMatch[] of classes implementing MatchInterface
      */
     protected function getMatchers()
     {
