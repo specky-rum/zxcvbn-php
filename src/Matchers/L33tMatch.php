@@ -28,7 +28,7 @@ class L33tMatch extends DictionaryMatch
      * @param array $rankedDictionaries
      * @return L33tMatch[]
      */
-    public static function match($password, array $userInputs = [], $rankedDictionaries = [])
+    public static function doMatch($password, array $userInputs = [], $rankedDictionaries = [])
     {
         // Translate l33t password and dictionary match the translated password.
         $maps = array_filter(static::getL33tSubstitutions(static::getL33tSubtable($password)));
@@ -45,7 +45,7 @@ class L33tMatch extends DictionaryMatch
             $translatedWord = static::translate($password, $map);
 
             /** @var L33tMatch[] $results */
-            $results = parent::match($translatedWord, $userInputs, $rankedDictionaries);
+            $results = parent::doMatch($translatedWord, $userInputs, $rankedDictionaries);
             foreach ($results as $match) {
                 $token = mb_substr($password, $match->begin, $match->end - $match->begin + 1);
 

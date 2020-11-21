@@ -2,9 +2,9 @@
 
 namespace ZxcvbnPhp\Test\Matchers;
 
-use ZxcvbnPhp\Matchers\Match;
+use ZxcvbnPhp\Matchers\BaseMatch;
 
-class MockMatch extends Match
+class MockMatch extends BaseMatch
 {
     protected $guesses;
 
@@ -47,7 +47,7 @@ class MockMatch extends Match
      * @return array
      *   Array of Match objects
      */
-    public static function match($password, array $userInputs = [])
+    public static function doMatch($password, array $userInputs = [])
     {
         return [];
     }

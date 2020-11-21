@@ -17,7 +17,7 @@ class RepeatTest extends AbstractMatchTest
     {
         foreach (['', '#'] as $password) {
             $this->assertEmpty(
-                RepeatMatch::match($password),
+                RepeatMatch::doMatch($password),
                 "doesn't match length-" . strlen($password) . " repeat patterns"
             );
         }
@@ -32,7 +32,7 @@ class RepeatTest extends AbstractMatchTest
         foreach ($this->generatePasswords($pattern, $prefixes, $suffixes) as list($password, $i, $j)) {
             $this->checkMatches(
                 "matches embedded repeat patterns",
-                RepeatMatch::match($password),
+                RepeatMatch::doMatch($password),
                 'repeat',
                 [$pattern],
                 [[$i, $j]],
@@ -52,7 +52,7 @@ class RepeatTest extends AbstractMatchTest
 
                 $this->checkMatches(
                     "matches repeats with base character '$chr'",
-                    RepeatMatch::match($pattern),
+                    RepeatMatch::doMatch($pattern),
                     'repeat',
                     [$pattern],
                     [[0, strlen($pattern) - 1]],
@@ -71,7 +71,7 @@ class RepeatTest extends AbstractMatchTest
         $patterns = ['BBB','1111','aaaaa','@@@@@@'];
         $this->checkMatches(
             "matches multiple adjacent repeats",
-            RepeatMatch::match($str),
+            RepeatMatch::doMatch($str),
             'repeat',
             $patterns,
             [[0, 2],[3, 6],[7, 11],[12, 17]],
@@ -88,7 +88,7 @@ class RepeatTest extends AbstractMatchTest
         $patterns = ['BBB','1111','aaaaa','@@@@@@'];
         $this->checkMatches(
             'matches multiple repeats with non-repeats in-between',
-            RepeatMatch::match($str),
+            RepeatMatch::doMatch($str),
             'repeat',
             $patterns,
             [[4, 6],[12, 15],[21, 25],[30, 35]],
@@ -104,7 +104,7 @@ class RepeatTest extends AbstractMatchTest
         $pattern = 'abab';
         $this->checkMatches(
             'matches multi-character repeat pattern',
-            RepeatMatch::match($pattern),
+            RepeatMatch::doMatch($pattern),
             'repeat',
             [$pattern],
             [[0, strlen($pattern) - 1]],
@@ -120,7 +120,7 @@ class RepeatTest extends AbstractMatchTest
         $pattern = 'aabaab';
         $this->checkMatches(
             'matches aabaab as a repeat instead of the aa prefix',
-            RepeatMatch::match($pattern),
+            RepeatMatch::doMatch($pattern),
             'repeat',
             [$pattern],
             [[0, strlen($pattern) - 1]],
@@ -136,7 +136,7 @@ class RepeatTest extends AbstractMatchTest
         $pattern = 'abababab';
         $this->checkMatches(
             'identifies ab as repeat string, even though abab is also repeated',
-            RepeatMatch::match($pattern),
+            RepeatMatch::doMatch($pattern),
             'repeat',
             [$pattern],
             [[0, strlen($pattern) - 1]],
@@ -152,7 +152,7 @@ class RepeatTest extends AbstractMatchTest
         $pattern = 'abcabc';
         $this->checkMatches(
             'calculates the correct number of guesses for the base token',
-            RepeatMatch::match($pattern),
+            RepeatMatch::doMatch($pattern),
             'repeat',
             [$pattern],
             [[0, strlen($pattern) - 1]],
@@ -170,7 +170,7 @@ class RepeatTest extends AbstractMatchTest
 
         $this->checkMatches(
             'detects repeated multibyte characters',
-            RepeatMatch::match($pattern),
+            RepeatMatch::doMatch($pattern),
             'repeat',
             [$pattern],
             [[0, 2]],
@@ -187,7 +187,7 @@ class RepeatTest extends AbstractMatchTest
 
         $this->checkMatches(
             'detects repeat with correct offset after multibyte characters',
-            RepeatMatch::match($pattern),
+            RepeatMatch::doMatch($pattern),
             'repeat',
             ['ll'],
             [[7, 8]],
@@ -201,7 +201,7 @@ class RepeatTest extends AbstractMatchTest
     public function testBaseMatches()
     {
         $pattern = 'abcabc';
-        $match = RepeatMatch::match($pattern)[0];
+        $match = RepeatMatch::doMatch($pattern)[ 0];
 
         $baseMatches = $match->baseMatches;
         $this->assertEquals(1, count($baseMatches));
@@ -211,7 +211,7 @@ class RepeatTest extends AbstractMatchTest
     public function testBaseMatchesRecursive()
     {
         $pattern = 'mqmqmqltltltmqmqmqltltlt';
-        $match = RepeatMatch::match($pattern)[0];
+        $match = RepeatMatch::doMatch($pattern)[ 0];
         $this->assertEquals('mqmqmqltltlt', $match->repeatedChar);
 
         $baseMatches = $match->baseMatches;
@@ -227,7 +227,7 @@ class RepeatTest extends AbstractMatchTest
         $pattern = 'scoobydoo';
         $this->checkMatches(
             'duplicate repeats in the password are identified correctly',
-            RepeatMatch::match($pattern),
+            RepeatMatch::doMatch($pattern),
             'repeat',
             ['oo', 'oo'],
             [[2, 3], [7, 8]],

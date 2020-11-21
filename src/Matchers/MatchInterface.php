@@ -14,7 +14,7 @@ interface MatchInterface
      *
      * @return array Array of Match objects
      */
-    public static function match($password, array $userInputs = []);
+    public static function doMatch($password, array $userInputs = []);
 
     /**
      * @return integer

@@ -3,7 +3,7 @@
 namespace ZxcvbnPhp\Test;
 
 use ZxcvbnPhp\Matchers\DictionaryMatch;
-use ZxcvbnPhp\Matchers\Match;
+use ZxcvbnPhp\Matchers\BaseMatch;
 use ZxcvbnPhp\Zxcvbn;
 
 class ZxcvbnTest extends \PHPUnit_Framework_TestCase
@@ -18,7 +18,7 @@ class ZxcvbnTest extends \PHPUnit_Framework_TestCase
 
     public function testMinimumGuessesForMultipleMatches()
     {
-        /** @var Match[] $matches */
+        /** @var BaseMatch[] $matches */
         $matches = $this->zxcvbn->passwordStrength('rockyou')['sequence'];
 
         // zxcvbn will return two matches: 'rock' (rank 359) and 'you' (rank 1).

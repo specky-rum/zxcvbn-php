@@ -13,7 +13,7 @@ class YearTest extends AbstractMatchTest
     public function testNoMatchForNonYear()
     {
         $password = 'password';
-        $this->assertEmpty(YearMatch::match($password));
+        $this->assertEmpty(YearMatch::doMatch($password));
     }
 
     public function recentYearProvider()
@@ -33,7 +33,7 @@ class YearTest extends AbstractMatchTest
     {
         $this->checkMatches(
             "matches recent year",
-            YearMatch::match($password),
+            YearMatch::doMatch($password),
             'regex',
             [$password],
             [[0, strlen($password) - 1]],
@@ -56,7 +56,7 @@ class YearTest extends AbstractMatchTest
      */
     public function testNonRecentYears($password)
     {
-        $matches = YearMatch::match($password);
+        $matches = YearMatch::doMatch($password);
         $this->assertEmpty($matches, "does not match non-recent year");
     }
 
@@ -69,7 +69,7 @@ class YearTest extends AbstractMatchTest
         foreach ($this->generatePasswords($pattern, $prefixes, $suffixes) as list($password, $i, $j)) {
             $this->checkMatches(
                 "identifies years surrounded by words",
-                YearMatch::match($password),
+                YearMatch::doMatch($password),
                 'regex',
                 [$pattern],
                 [[$i, $j]],
@@ -78,7 +78,7 @@ class YearTest extends AbstractMatchTest
         }
 
         $password = 'password1900';
-        $matches = YearMatch::match($password);
+        $matches = YearMatch::doMatch($password);
         $this->assertCount(1, $matches);
         $this->assertSame('1900', $matches[0]->token, 'Token incorrect');
     }
@@ -88,7 +88,7 @@ class YearTest extends AbstractMatchTest
         $password = '419004';
         $this->checkMatches(
             "matches year within other numbers",
-            YearMatch::match($password),
+            YearMatch::doMatch($password),
             'regex',
             ['1900'],
             [[1, 4]],

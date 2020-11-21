@@ -4,7 +4,7 @@ namespace ZxcvbnPhp\Test\Matchers;
 
 use ReflectionClass;
 use ZxcvbnPhp\Matchers\L33tMatch;
-use ZxcvbnPhp\Matchers\Match;
+use ZxcvbnPhp\Matchers\BaseMatch;
 
 class L33tTest extends AbstractMatchTest
 {
@@ -86,7 +86,7 @@ class L33tTest extends AbstractMatchTest
     {
         $this->assertEquals(
             [],
-            L33tMatch::match(''),
+            L33tMatch::doMatch(''),
             "doesn't match empty string"
         );
     }
@@ -95,7 +95,7 @@ class L33tTest extends AbstractMatchTest
     {
         $this->assertEquals(
             [],
-            L33tMatch::match('password'),
+            L33tMatch::doMatch('password'),
             "doesn't match pure dictionary words"
         );
     }
@@ -104,7 +104,7 @@ class L33tTest extends AbstractMatchTest
     {
         $this->assertEquals(
             [],
-            L33tMatch::match('password4'),
+            L33tMatch::doMatch('password4'),
             "doesn't match pure dictionary word with l33t characters after"
         );
     }
@@ -113,7 +113,7 @@ class L33tTest extends AbstractMatchTest
     {
         $this->assertEquals(
             [],
-            L33tMatch::match('Password4'),
+            L33tMatch::doMatch('Password4'),
             "doesn't match capitalized dictionary word with l33t characters after"
         );
     }
@@ -165,7 +165,7 @@ class L33tTest extends AbstractMatchTest
     {
         $this->checkMatches(
             "matches against common l33t substitutions",
-            MockL33tMatch::match($password),
+            MockL33tMatch::doMatch($password),
             'dictionary',
             [$pattern],
             [$ij],
@@ -183,7 +183,7 @@ class L33tTest extends AbstractMatchTest
     {
         $this->checkMatches(
             "matches against overlapping l33t patterns",
-            MockL33tMatch::match('@a(go{G0'),
+            MockL33tMatch::doMatch('@a(go{G0'),
             'dictionary',
             ['@a(', '(go', '{G0'],
             [[0,2], [2,4], [5,7]],
@@ -205,7 +205,7 @@ class L33tTest extends AbstractMatchTest
     {
         $this->assertEquals(
             [],
-            MockL33tMatch::match('p4@ssword'),
+            MockL33tMatch::doMatch('p4@ssword'),
             "doesn't match when multiple l33t substitutions are needed for the same letter"
         );
     }
@@ -214,7 +214,7 @@ class L33tTest extends AbstractMatchTest
     {
         $this->assertEquals(
             [],
-            L33tMatch::match('4 1 @'),
+            L33tMatch::doMatch('4 1 @'),
             "doesn't match single-character l33ted words"
         );
     }
@@ -234,7 +234,7 @@ class L33tTest extends AbstractMatchTest
 
         $this->assertEquals(
             [],
-            MockL33tMatch::match('4sdf0'),
+            MockL33tMatch::doMatch('4sdf0'),
             "doesn't match with subsets of possible l33t substitutions"
         );
     }
@@ -247,7 +247,7 @@ class L33tTest extends AbstractMatchTest
     {
         $this->checkMatches(
             "matches against overlapping l33t patterns",
-            L33tMatch::match('marie1'),
+            L33tMatch::doMatch('marie1'),
             'dictionary',
             ['marie1', 'arie1'],
             [[0,5], [1,5]],
@@ -286,18 +286,18 @@ class L33tTest extends AbstractMatchTest
     public function variationsProvider()
     {
         return array(
-            [ '',  1, [] ],
-            [ 'a', 1, [] ],
-            [ '4', 2, ['4' => 'a'] ],
-            [ '4pple', 2, ['4' => 'a'] ],
-            [ 'abcet', 1, [] ],
-            [ '4bcet', 2, ['4' => 'a'] ],
-            [ 'a8cet', 2, ['8' => 'b'] ],
-            [ 'abce+', 2, ['+' => 't'] ],
-            [ '48cet', 4, ['4' => 'a', '8' => 'b'] ],
-            [ 'a4a4aa',  Match::binom(6, 2) + Match::binom(6, 1), ['4' => 'a'] ],
-            [ '4a4a44',  Match::binom(6, 2) + Match::binom(6, 1), ['4' => 'a'] ],
-            [ 'a44att+', (Match::binom(4, 2) + Match::binom(4, 1)) * Match::binom(3, 1), ['4' => 'a', '+' => 't'] ]
+			[ '',  1, [] ],
+			[ 'a', 1, [] ],
+			[ '4', 2, ['4' => 'a'] ],
+			[ '4pple', 2, ['4' => 'a'] ],
+			[ 'abcet', 1, [] ],
+			[ '4bcet', 2, ['4' => 'a'] ],
+			[ 'a8cet', 2, ['8' => 'b'] ],
+			[ 'abce+', 2, ['+' => 't'] ],
+			[ '48cet', 4, ['4' => 'a', '8' => 'b'] ],
+			[ 'a4a4aa', BaseMatch::binom(6, 2) + BaseMatch::binom(6, 1), [ '4' => 'a'] ],
+			[ '4a4a44', BaseMatch::binom(6, 2) + BaseMatch::binom(6, 1), [ '4' => 'a'] ],
+			[ 'a44att+', ( BaseMatch::binom(4, 2) + BaseMatch::binom(4, 1))*BaseMatch::binom(3, 1), [ '4' => 'a', '+' => 't'] ]
         );
     }
 
@@ -325,7 +325,7 @@ class L33tTest extends AbstractMatchTest
     {
         $token = 'Aa44aA';
         $match = new L33tMatch($token, 0, strlen($token) - 1, $token, ['rank' => 1, 'sub' => ['4' => 'a']]);
-        $expected = Match::binom(6, 2) + Match::binom(6, 1);
+        $expected = BaseMatch::binom(6, 2) + BaseMatch::binom(6, 1);
 
         $class = new ReflectionClass('\\ZxcvbnPhp\\Matchers\\L33tMatch');
         $method = $class->getMethod('getL33tVariations');

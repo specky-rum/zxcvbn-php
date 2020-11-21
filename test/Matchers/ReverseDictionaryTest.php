@@ -21,7 +21,7 @@ class RerverseDictionaryTest extends AbstractMatchTest
 
         $this->checkMatches(
             "matches against reversed words in custom dictionary",
-            ReverseDictionaryMatch::match($password, [], self::$testDicts),
+            ReverseDictionaryMatch::doMatch($password, [], self::$testDicts),
             'dictionary',
             ['123', '456'],
             [[1, 3], [4, 6]],

@@ -1,3 +1,5 @@
+This is a simple fork of mkopinsky/zxcvbn-php to enable PHP 8 support by avoiding usage of the reserved `match` keyword.
+
 Zxcvbn-PHP is a password strength estimator using pattern matching and minimum entropy calculation. Zxcvbn-PHP is based on the [the Javascript zxcvbn project](https://github.com/dropbox/zxcvbn) from [Dropbox and @lowe](https://tech.dropbox.com/2012/04/zxcvbn-realistic-password-strength-estimation/). "zxcvbn" is bad password, just like "qwerty" and "123456".
 
 >zxcvbn attempts to give sound password advice through pattern matching and conservative entropy calculations. It finds 10k common passwords, common American names and surnames, common English words, and common patterns like dates, repeats (aaa), sequences (abcd), and QWERTY patterns.
@@ -14,7 +16,7 @@ The library can be installed with [Composer](http://getcomposer.org) by adding i
 ```json
 {
     "require": {
-        "mkopinsky/zxcvbn-php": "^4.4.2"
+        "fernleafsystems/zxcvbn-php": "^1.0"
     }
 }
 ```

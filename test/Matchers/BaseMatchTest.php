@@ -3,10 +3,10 @@
 namespace ZxcvbnPhp\Test\Matchers;
 
 use ZxcvbnPhp\Matchers\DateMatch;
-use ZxcvbnPhp\Matchers\Match;
+use ZxcvbnPhp\Matchers\BaseMatch;
 use ZxcvbnPhp\Matchers\MatchInterface;
 
-class MatchTest extends \PHPUnit_Framework_TestCase
+class BaseMatchTest extends \PHPUnit_Framework_TestCase
 {
     public function binomialDataProvider()
     {
@@ -30,7 +30,7 @@ class MatchTest extends \PHPUnit_Framework_TestCase
      */
     public function testBinomialCoefficient($n, $k, $expected)
     {
-        $this->assertEquals($expected, Match::binom($n, $k), "binom returns expected result");
+        $this->assertEquals($expected, BaseMatch::binom($n, $k), "binom returns expected result");
     }
 
     public function testBinomialMirrorIdentity()
@@ -39,8 +39,8 @@ class MatchTest extends \PHPUnit_Framework_TestCase
         $k = 12;
 
         $this->assertEquals(
-            Match::binom($n, $k),
-            Match::binom($n, $n - $k),
+            BaseMatch::binom($n, $k),
+            BaseMatch::binom($n, $n - $k),
             "mirror identity"
         );
     }
@@ -51,15 +51,15 @@ class MatchTest extends \PHPUnit_Framework_TestCase
         $k = 12;
 
         $this->assertEquals(
-            Match::binom($n, $k),
-            Match::binom($n - 1, $k - 1) + Match::binom($n - 1, $k),
+            BaseMatch::binom($n, $k),
+			BaseMatch::binom( $n - 1, $k - 1) + BaseMatch::binom( $n - 1, $k),
             "pascal's triangle identity"
         );
     }
 
     /**
      * @param int $guesses
-     * @return \PHPUnit_Framework_MockObject_MockObject|Match
+     * @return \PHPUnit_Framework_MockObject_MockObject|BaseMatch
      */
     private function getMatchMock($guesses)
     {

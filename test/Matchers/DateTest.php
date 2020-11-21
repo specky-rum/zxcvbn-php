@@ -29,7 +29,7 @@ class DateTest extends AbstractMatchTest
 
         $this->checkMatches(
             "matches dates that use '$sep' as a separator",
-            DateMatch::match($password),
+            DateMatch::doMatch($password),
             'date',
             [$password],
             [[0, strlen($password) - 1]],
@@ -54,7 +54,7 @@ class DateTest extends AbstractMatchTest
             );
             $this->checkMatches(
                 "matches dates with $order format",
-                DateMatch::match($password),
+                DateMatch::doMatch($password),
                 'date',
                 [ $password ],
                 [[ 0, strlen($password) - 1 ]],
@@ -73,7 +73,7 @@ class DateTest extends AbstractMatchTest
         $password = '111504';
         $this->checkMatches(
             "matches the date with year closest to REFERENCE_YEAR when ambiguous",
-            DateMatch::match($password),
+            DateMatch::doMatch($password),
             'date',
             [ $password ],
             [[ 0, strlen($password) - 1 ]],
@@ -107,7 +107,7 @@ class DateTest extends AbstractMatchTest
         $password = "{$year}{$month}{$day}";
         $this->checkMatches(
             "matches $password without a separator",
-            DateMatch::match($password),
+            DateMatch::doMatch($password),
             'date',
             [$password],
             [[0, strlen($password) - 1]],
@@ -129,7 +129,7 @@ class DateTest extends AbstractMatchTest
         $password = "{$year}.{$month}.{$day}";
         $this->checkMatches(
             "matches $password with a separator",
-            DateMatch::match($password),
+            DateMatch::doMatch($password),
             'date',
             [$password],
             [[0, strlen($password) - 1]],
@@ -145,7 +145,7 @@ class DateTest extends AbstractMatchTest
         $password = "02/02/02";
         $this->checkMatches(
             "matches zero-padded dates",
-            DateMatch::match($password),
+            DateMatch::doMatch($password),
             'date',
             [ $password ],
             [[ 0, strlen($password) - 1 ]],
@@ -163,7 +163,7 @@ class DateTest extends AbstractMatchTest
         $password = "2018-01-20";
         $this->checkMatches(
             "matches full date and not just year",
-            DateMatch::match($password),
+            DateMatch::doMatch($password),
             'date',
             [ $password ],
             [[ 0, strlen($password) - 1 ]],
@@ -185,7 +185,7 @@ class DateTest extends AbstractMatchTest
         foreach ($this->generatePasswords($pattern, $prefixes, $suffixes) as list($password, $i, $j)) {
             $this->checkMatches(
                 "matches embedded dates",
-                DateMatch::match($password),
+                DateMatch::doMatch($password),
                 'date',
                 [$pattern],
                 [[$i, $j]],
@@ -203,7 +203,7 @@ class DateTest extends AbstractMatchTest
         $password = "12/20/1991.12.20";
         $this->checkMatches(
             "matches overlapping dates",
-            DateMatch::match($password),
+            DateMatch::doMatch($password),
             'date',
             [ '12/20/1991', '1991.12.20' ],
             [[ 0, 9 ], [ 6, 15 ]],
@@ -221,7 +221,7 @@ class DateTest extends AbstractMatchTest
         $password = "912/20/919";
         $this->checkMatches(
             "matches dates padded by non-ambiguous digits",
-            DateMatch::match($password),
+            DateMatch::doMatch($password),
             'date',
             [ '12/20/91' ],
             [[ 1, 8 ]],
@@ -241,7 +241,7 @@ class DateTest extends AbstractMatchTest
 
     public function testNonDateThatLooksLikeDate()
     {
-        $this->assertEmpty(DateMatch::match('30-31-00'), "no match on invalid date");
+        $this->assertEmpty(DateMatch::doMatch('30-31-00'), "no match on invalid date");
     }
 
     public function testGuessDistanceFromReferenceYear()

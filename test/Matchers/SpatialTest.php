@@ -2,7 +2,7 @@
 
 namespace ZxcvbnPhp\Test\Matchers;
 
-use ZxcvbnPhp\Matchers\Match;
+use ZxcvbnPhp\Matchers\BaseMatch;
 use ZxcvbnPhp\Matchers\SpatialMatch;
 
 /**
@@ -28,7 +28,7 @@ class SpatialTest extends AbstractMatchTest
     {
         $this->assertEquals(
             [],
-            SpatialMatch::match($password),
+            SpatialMatch::doMatch($password),
             "doesn't match 1- and 2-character spatial patterns"
         );
     }
@@ -37,7 +37,7 @@ class SpatialTest extends AbstractMatchTest
     {
         $this->assertEquals(
             [],
-            SpatialMatch::match('qzpm'),
+            SpatialMatch::doMatch('qzpm'),
             "doesn't match non-pattern"
         );
     }
@@ -52,7 +52,7 @@ class SpatialTest extends AbstractMatchTest
 
         $this->checkMatches(
             "matches against spatial patterns surrounded by non-spatial patterns",
-            SpatialMatch::match($password, [], $graphs),
+            SpatialMatch::doMatch($password, [], $graphs),
             'spatial',
             [$pattern],
             [[3, 8]],
@@ -97,7 +97,7 @@ class SpatialTest extends AbstractMatchTest
 
         $this->checkMatches(
             "matches '$password' as a $keyboard pattern",
-            SpatialMatch::match($password, [], $graphs),
+            SpatialMatch::doMatch($password, [], $graphs),
             'spatial',
             [$password],
             [[0, strlen($password) - 1]],
@@ -114,7 +114,7 @@ class SpatialTest extends AbstractMatchTest
         $password = "!QAZ1qaz";
         $this->checkMatches(
             "shifted count is correct for two matches in a row",
-            SpatialMatch::match($password),
+            SpatialMatch::doMatch($password),
             'spatial',
             ['!QAZ', '1qaz'],
             [[0, 3], [4, 7]],
@@ -162,7 +162,7 @@ class SpatialTest extends AbstractMatchTest
         ]);
 
         $this->assertEquals(
-            $this->getBaseGuessCount($token) * (Match::binom(6, 2) + Match::binom(6, 1)),
+            $this->getBaseGuessCount($token) * ( BaseMatch::binom(6, 2) + BaseMatch::binom(6, 1)),
             $match->getGuesses(),
             "guesses is added for shifted keys, similar to capitals in dictionary matching"
         );

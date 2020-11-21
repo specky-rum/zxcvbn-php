@@ -4,7 +4,7 @@ namespace ZxcvbnPhp\Matchers;
 
 use ZxcvbnPhp\Matcher;
 
-class DateMatch extends Match
+class DateMatch extends BaseMatch
 {
     const NUM_YEARS = 119; // Years match against 1900 - 2019
     const NUM_MONTHS = 12;
@@ -73,7 +73,7 @@ class DateMatch extends Match
      * @param array $userInputs
      * @return DateMatch[]
      */
-    public static function match($password, array $userInputs = [])
+    public static function doMatch($password, array $userInputs = [])
     {
         # a "date" is recognized as:
         #   any 3-tuple that starts or ends with a 2- or 4-digit year,

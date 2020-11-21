@@ -37,7 +37,7 @@ class DictionaryTest extends AbstractMatchTest
      */
     public function testWordsNotInDictionary($password)
     {
-        $matches = DictionaryMatch::match($password);
+        $matches = DictionaryMatch::doMatch($password);
         $this->assertEmpty($matches, "does not match non-dictionary words");
     }
 
@@ -48,7 +48,7 @@ class DictionaryTest extends AbstractMatchTest
 
         $this->checkMatches(
             "matches words that contain other words",
-            DictionaryMatch::match($password, [], self::$testDicts),
+            DictionaryMatch::doMatch($password, [], self::$testDicts),
             'dictionary',
             $patterns,
             [[0, 5], [0, 10], [6, 10]],
@@ -67,7 +67,7 @@ class DictionaryTest extends AbstractMatchTest
 
         $this->checkMatches(
             "matches multiple words when they overlap",
-            DictionaryMatch::match($password, [], self::$testDicts),
+            DictionaryMatch::doMatch($password, [], self::$testDicts),
             'dictionary',
             $patterns,
             [[0, 3], [2, 5]],
@@ -86,7 +86,7 @@ class DictionaryTest extends AbstractMatchTest
 
         $this->checkMatches(
             "ignores uppercasing",
-            DictionaryMatch::match($password, [], self::$testDicts),
+            DictionaryMatch::doMatch($password, [], self::$testDicts),
             'dictionary',
             $patterns,
             [[0, 4], [5, 5]],
@@ -107,7 +107,7 @@ class DictionaryTest extends AbstractMatchTest
         foreach ($this->generatePasswords($pattern, $prefixes, $suffixes) as list($password, $i, $j)) {
             $this->checkMatches(
                 "identifies words surrounded by non-words",
-                DictionaryMatch::match($password, [], self::$testDicts),
+                DictionaryMatch::doMatch($password, [], self::$testDicts),
                 'dictionary',
                 [$pattern],
                 [[$i, $j]],
@@ -130,7 +130,7 @@ class DictionaryTest extends AbstractMatchTest
 
                 $this->checkMatches(
                     "matches against all words in provided dictionaries",
-                    DictionaryMatch::match($word, [], self::$testDicts),
+                    DictionaryMatch::doMatch($word, [], self::$testDicts),
                     'dictionary',
                     [$word],
                     [[0, strlen($word) - 1]],
@@ -151,7 +151,7 @@ class DictionaryTest extends AbstractMatchTest
 
         $this->checkMatches(
             "default dictionaries",
-            DictionaryMatch::match($password),
+            DictionaryMatch::doMatch($password),
             'dictionary',
             $patterns,
             [[0, 2]],
@@ -168,7 +168,7 @@ class DictionaryTest extends AbstractMatchTest
         $password = 'foobar';
         $patterns = ['foo', 'bar'];
 
-        $matches = DictionaryMatch::match($password, ['foo', 'bar']);
+        $matches = DictionaryMatch::doMatch($password, [ 'foo', 'bar']);
         $matches = array_values(array_filter($matches, function ($match) {
             return $match->dictionaryName === 'user_inputs';
         }));
@@ -191,7 +191,7 @@ class DictionaryTest extends AbstractMatchTest
         $password = '39kx9.1x0!3n6';
         $this->checkMatches(
             "matches with provided user input dictionary",
-            DictionaryMatch::match($password, [$password]),
+            DictionaryMatch::doMatch($password, [ $password]),
             'dictionary',
             [$password],
             [[0, 12]],
@@ -207,7 +207,7 @@ class DictionaryTest extends AbstractMatchTest
         $password = 'pass';
         $this->checkMatches(
             "matches words in multiple dictionaries",
-            DictionaryMatch::match($password),
+            DictionaryMatch::doMatch($password),
             'dictionary',
             ['pass', 'as', 'ass'],
             [[0, 3], [1, 2], [1, 3]],
