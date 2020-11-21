@@ -10,7 +10,7 @@ use ZxcvbnPhp\Scorer;
  *
  * Intentionally not named with Match suffix to prevent autoloading from Matcher.
  */
-class Bruteforce extends Match
+class Bruteforce extends BaseMatch
 {
 
     const BRUTEFORCE_CARDINALITY = 10;
@@ -22,7 +22,7 @@ class Bruteforce extends Match
      * @param array $userInputs
      * @return Bruteforce[]
      */
-    public static function match($password, array $userInputs = [])
+    public static function doMatch($password, array $userInputs = [])
     {
         // Matches entire string.
         $match = new static($password, 0, mb_strlen($password) - 1, $password);

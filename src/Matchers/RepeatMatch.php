@@ -5,7 +5,7 @@ namespace ZxcvbnPhp\Matchers;
 use ZxcvbnPhp\Matcher;
 use ZxcvbnPhp\Scorer;
 
-class RepeatMatch extends Match
+class RepeatMatch extends BaseMatch
 {
     const GREEDY_MATCH = '/(.+)\1+/u';
     const LAZY_MATCH = '/(.+?)\1+/u';
@@ -13,7 +13,7 @@ class RepeatMatch extends Match
 
     public $pattern = 'repeat';
 
-    /** @var Match[] An array of matches for the repeated section itself. */
+    /** @var BaseMatch[] An array of matches for the repeated section itself. */
     public $baseMatches = [];
 
     /** @var int The number of guesses required for the repeated section itself. */
@@ -32,7 +32,7 @@ class RepeatMatch extends Match
      * @param array $userInputs
      * @return RepeatMatch[]
      */
-    public static function match($password, array $userInputs = [])
+    public static function doMatch($password, array $userInputs = [])
     {
         $matches = [];
         $lastIndex = 0;

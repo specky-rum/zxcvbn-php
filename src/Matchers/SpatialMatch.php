@@ -4,7 +4,7 @@ namespace ZxcvbnPhp\Matchers;
 
 use ZxcvbnPhp\Matcher;
 
-class SpatialMatch extends Match
+class SpatialMatch extends BaseMatch
 {
     const SHIFTED_CHARACTERS = '~!@#$%^&*()_+QWERTYUIOP{}|ASDFGHJKL:"ZXCVBNM<>?';
 
@@ -36,7 +36,7 @@ class SpatialMatch extends Match
      * @param array $graphs
      * @return SpatialMatch[]
      */
-    public static function match($password, array $userInputs = [], array $graphs = [])
+    public static function doMatch($password, array $userInputs = [], array $graphs = [])
     {
 
         $matches = [];

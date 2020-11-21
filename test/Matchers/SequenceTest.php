@@ -24,14 +24,14 @@ class SequenceTest extends AbstractMatchTest
      */
     public function testShortPassword($password)
     {
-        $matches = SequenceMatch::match($password);
+        $matches = SequenceMatch::doMatch($password);
         $this->assertEmpty($matches, "doesn't match length-" . strlen($password) . " sequences");
     }
 
     public function testNonSequence()
     {
         $password = 'password';
-        $matches = SequenceMatch::match($password);
+        $matches = SequenceMatch::doMatch($password);
         $this->assertEmpty($matches, "doesn't match password that's not a sequence");
     }
 
@@ -41,7 +41,7 @@ class SequenceTest extends AbstractMatchTest
 
         $this->checkMatches(
             "matches overlapping patterns",
-            SequenceMatch::match($password),
+            SequenceMatch::doMatch($password),
             'sequence',
             ['abc', 'cba', 'abc'],
             [[0, 2], [2, 4], [4, 6]],
@@ -60,7 +60,7 @@ class SequenceTest extends AbstractMatchTest
         foreach ($this->generatePasswords($pattern, $prefixes, $suffixes) as list($password, $i, $j)) {
             $this->checkMatches(
                 "matches embedded sequence patterns",
-                SequenceMatch::match($password),
+                SequenceMatch::doMatch($password),
                 'sequence',
                 [$pattern],
                 [[$i, $j]],
@@ -101,7 +101,7 @@ class SequenceTest extends AbstractMatchTest
     {
         $this->checkMatches(
             "matches " . $password . " as a " . $name . " sequence",
-            SequenceMatch::match($password),
+            SequenceMatch::doMatch($password),
             'sequence',
             [$password],
             [[0, strlen($password) - 1]],
@@ -117,7 +117,7 @@ class SequenceTest extends AbstractMatchTest
         $password = 'pass123wordZYX';
         $this->checkMatches(
             "matches password with multiple sequences",
-            SequenceMatch::match($password),
+            SequenceMatch::doMatch($password),
             'sequence',
             ['123', 'ZYX'],
             [[4, 6], [11, 13]],
@@ -134,7 +134,7 @@ class SequenceTest extends AbstractMatchTest
 
         $this->checkMatches(
             'detects sequence in a multibyte password',
-            SequenceMatch::match($pattern),
+            SequenceMatch::doMatch($pattern),
             'sequence',
             ['eca'],
             [[3, 5]],
@@ -151,7 +151,7 @@ class SequenceTest extends AbstractMatchTest
 
         $this->checkMatches(
             'detects sequence consisting of multibyte characters',
-            SequenceMatch::match($pattern),
+            SequenceMatch::doMatch($pattern),
             'sequence',
             [$pattern],
             [[0, 5]],

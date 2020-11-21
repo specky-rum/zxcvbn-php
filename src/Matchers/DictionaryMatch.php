@@ -4,7 +4,7 @@ namespace ZxcvbnPhp\Matchers;
 
 use ZxcvbnPhp\Matcher;
 
-class DictionaryMatch extends Match
+class DictionaryMatch extends BaseMatch
 {
 
     public $pattern = 'dictionary';
@@ -40,7 +40,7 @@ class DictionaryMatch extends Match
      * @param array $rankedDictionaries
      * @return DictionaryMatch[]
      */
-    public static function match($password, array $userInputs = [], $rankedDictionaries = [])
+    public static function doMatch($password, array $userInputs = [], $rankedDictionaries = [])
     {
         $matches = [];
         if ($rankedDictionaries) {

@@ -12,7 +12,7 @@ class BruteforceTest extends AbstractMatchTest
 
         $this->checkMatches(
             "matches entire string",
-            Bruteforce::match($password),
+            Bruteforce::doMatch($password),
             'bruteforce',
             [$password],
             [[0, 9]],
@@ -26,7 +26,7 @@ class BruteforceTest extends AbstractMatchTest
 
         $this->checkMatches(
             "matches entire string with multibyte characters",
-            Bruteforce::match($password),
+            Bruteforce::doMatch($password),
             'bruteforce',
             [$password],
             [[0, 6]], // should be 0, 6 and not 0, 20

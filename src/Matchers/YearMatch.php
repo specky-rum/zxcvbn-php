@@ -4,7 +4,7 @@ namespace ZxcvbnPhp\Matchers;
 
 use ZxcvbnPhp\Matcher;
 
-class YearMatch extends Match
+class YearMatch extends BaseMatch
 {
 
     const NUM_YEARS = 119;
@@ -19,7 +19,7 @@ class YearMatch extends Match
      * @param array $userInputs
      * @return YearMatch[]
      */
-    public static function match($password, array $userInputs = [])
+    public static function doMatch($password, array $userInputs = [])
     {
         $matches = [];
         $groups = static::findAll($password, "/(19\d\d|200\d|201\d)/u");

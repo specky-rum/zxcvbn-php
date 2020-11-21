@@ -2,7 +2,7 @@
 
 namespace ZxcvbnPhp\Matchers;
 
-class SequenceMatch extends Match
+class SequenceMatch extends BaseMatch
 {
     const MAX_DELTA = 5;
 
@@ -24,7 +24,7 @@ class SequenceMatch extends Match
      * @param array $userInputs
      * @return SequenceMatch[]
      */
-    public static function match($password, array $userInputs = [])
+    public static function doMatch($password, array $userInputs = [])
     {
         $matches = [];
         $passwordLength = mb_strlen($password);

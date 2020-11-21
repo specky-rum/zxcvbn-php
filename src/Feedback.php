@@ -2,7 +2,7 @@
 
 namespace ZxcvbnPhp;
 
-use ZxcvbnPhp\Matchers\Match;
+use ZxcvbnPhp\Matchers\BaseMatch;
 
 /**
  * Feedback - gives some user guidance based on the strength
@@ -13,8 +13,8 @@ use ZxcvbnPhp\Matchers\Match;
 class Feedback
 {
     /**
-     * @param int $score
-     * @param Match[] $sequence
+     * @param int         $score
+     * @param BaseMatch[] $sequence
      * @return array
      */
     public function getFeedback($score, array $sequence)
