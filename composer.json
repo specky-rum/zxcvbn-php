@@ -1,17 +1,17 @@
 {
-  "name":         "fernleafsystems/zxcvbn-php",
+  "name":         "specky-rum/zxcvbn-php",
   "type":         "library",
   "description":  "Realistic password strength estimation PHP library based on Zxcvbn JS",
   "keywords":     [
     "zxcvbn",
     "password"
   ],
-  "homepage":     "https://github.com/fernleafsystems/zxcvbn-php",
+  "homepage":     "https://github.com/specky-rum/zxcvbn-php",
   "license":      "MIT",
   "authors":      [
     {
       "name":     "See contributors",
-      "homepage": "https://github.com/fernleafsystems/zxcvbn-php"
+      "homepage": "https://github.com/specky-rum/zxcvbn-php"
     }
   ],
   "require":      {
